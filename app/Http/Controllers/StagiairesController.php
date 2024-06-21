@@ -31,4 +31,31 @@ class StagiairesController extends Controller
         
         
     }
+    public function edit($id){
+        
+        $StagiairesEdit= Stagiaire::findOrFail($id);
+        return view('editStagaire',compact('StagiairesEdit'));
+    }
+    public function show($id)
+    {
+
+        $StagiairesShow = Stagiaire::findOrFail($id);
+        return response()->json($StagiairesShow);
+        
+    }
+    public function update(Request $request, $id)
+    {
+        $StagiairesU = Stagiaire::findOrFail($id);
+        $data = $request->validate([
+            'nom' => 'required|string|max:25',
+            'prenom' => 'required|string|max:25',
+            'filiere' => 'required|string|max:25',
+            'status' => 'required|string|max:1',
+            'date_naisance' => 'required|date'
+        ]);
+        $StagiairesU->update($data);
+        return redirect()->route('Stagiaires.index')->with('success', 'Stagiaire updated successfully');
+    }
+
+    
 }
