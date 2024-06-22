@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Stagiaire;
 use Illuminate\Http\Request;
+use Illuminate\Support\Composer;
 
 class StagiairesController extends Controller
 {
@@ -10,7 +11,7 @@ class StagiairesController extends Controller
         
         $Stagiaires= Stagiaire::all();
         
-        return response()->json($Stagiaires);
+        return view("welcome",Compact('Stagiaires'));
     }
     public function create() {
 
@@ -55,6 +56,11 @@ class StagiairesController extends Controller
         ]);
         $StagiairesU->update($data);
         return redirect()->route('Stagiaires.index')->with('success', 'Stagiaire updated successfully');
+    }
+    public function destroy($id){
+        $deleteSatg=Stagiaire::find($id);
+        $deleteSatg->delete();
+        return redirect()->back()->with('success', 'Stagiaire removed successfully');
     }
 
     
